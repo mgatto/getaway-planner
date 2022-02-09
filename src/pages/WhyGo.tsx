@@ -1,12 +1,22 @@
 import React, { EventHandler, useContext } from "react";
 
 import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonCol,
   IonContent,
   IonGrid,
   IonHeader,
+  IonImg,
+  IonLabel,
   IonPage,
   IonRow,
+  IonText,
+  IonThumbnail,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -19,10 +29,13 @@ export interface GetawayTypeProps extends Intention {
 
 const WhyGo: React.FC = () => {
   const getawayCtx = useContext(Getaway);
+  // const currentIntention = getawayCtx.currentIntention;
 
   const getawayTypeSelectionHandler = (id: number) => {
     // console.log(id);
     getawayCtx.selectOneIntent(id);
+
+    //TODO add a card below the options to show the current intention
   };
 
   return (
@@ -49,6 +62,20 @@ const WhyGo: React.FC = () => {
             ))}
           </IonRow>
         </IonGrid>
+        {getawayCtx.currentIntention.id > 0 && (
+          <IonCard>
+            <IonCardHeader>
+              <IonCardSubtitle>Your reason for getting away</IonCardSubtitle>
+              <IonCardTitle>{getawayCtx.currentIntention.title}</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>
+              {/*TODO convert into RouterLink*/}
+              <IonButton fill="outline" slot="end">
+                Let's go!
+              </IonButton>
+            </IonCardContent>
+          </IonCard>
+        )}
       </IonContent>
     </IonPage>
   );
