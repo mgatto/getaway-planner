@@ -24,22 +24,27 @@ import "./theme/variables.css";
 
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import WhyGo from "./pages/WhyGo";
+import GetawayContextProvider from "./data/GetawayContextProvider";
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        {/*Don't need <Switch /> within <IonRouterOutlet>*/}
-        <Route path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route component={NotFound} />
-      </IonRouterOutlet>
+      <GetawayContextProvider>
+        <IonRouterOutlet>
+          {/*Don't need <Switch /> within <IonRouterOutlet>*/}
+          <Route path="/home">
+            <Home />
+          </Route>
+          <Route path={"/why"} component={WhyGo} />
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+          <Route component={NotFound} />
+        </IonRouterOutlet>
+      </GetawayContextProvider>
     </IonReactRouter>
   </IonApp>
 );
