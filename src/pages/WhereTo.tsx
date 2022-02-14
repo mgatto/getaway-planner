@@ -1,15 +1,26 @@
 import React, {
   FunctionComponent,
   PropsWithChildren,
-  useCallback,
   useContext,
+  useRef,
   useState,
 } from "react";
 import { Getaway, Intention } from "../data/GetawayContextProvider";
 import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
   IonPage,
+  IonTextarea,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -19,31 +30,48 @@ import {
   Marker,
   Popup,
   useMapEvents,
-  useMapEvent,
   useMap,
   Tooltip,
 } from "react-leaflet";
 import PastTripsList from "../components/PastTrips/PastTripsList";
 
 import "./WhereTo.css";
-// import "leaflet/dist/leaflet.css";
-import { LatLng, LatLngExpression, LatLngTuple, LocationEvent } from "leaflet";
+import {
+  LatLng,
+  LatLngExpression,
+  LeafletMouseEvent,
+  LocationEvent,
+} from "leaflet";
+import { useHistory } from "react-router";
 
 interface WhereToProps {
   near?: boolean;
   cluster?: boolean;
 }
 
+interface Destinations {
+  position: LatLngExpression;
+  name: string;
+}
+
+//start us off in Santa Fe!
 const initialPosition: LatLngExpression = [35.68, -105.94];
 
 const WhereTo: React.FC<WhereToProps> = ({
   near = true,
   cluster = false,
 }): JSX.Element => {
-  const [markers, setMarkers] = useState<LatLngExpression[]>([]);
+  const [markers, setMarkers] = useState<Destinations[]>([]);
+  const getawayNameRef = useRef<HTMLIonInputElement>(null);
+  const history = useHistory();
 
   const getawayCtx = useContext(Getaway);
   const intentionForTravel = getawayCtx.currentIntention;
+
+  const submitHandler = () => {
+    console.log(getawayNameRef.current!.value);
+    history.push("/home");
+  };
 
   //ah, this is basically a React Component, which must be a child element of MapContainer; neat!
   function DestinationMarker() {
@@ -51,9 +79,41 @@ const WhereTo: React.FC<WhereToProps> = ({
     // or start with the center: map.getCenter() or simply "initialPosition"
 
     const map = useMapEvents({
-      click(e) {
+      click(e: LeafletMouseEvent) {
         setPosition(e.latlng);
-        setMarkers((existingMarkers) => [...existingMarkers, e.latlng]);
+
+        const GEOCODE_URL =
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
+        async function reverseGeoCoding(coordinates: LatLng) {
+          const data = await (
+            await fetch(GEOCODE_URL + `${coordinates.lng},${coordinates.lat}`)
+          ).json();
+
+          // const addressLabel =
+          //   data.address !== undefined ? data.address.LongLabel : "Unknown";
+          return data;
+        }
+
+        reverseGeoCoding(e.latlng).then((data) => {
+          console.log(data);
+
+          // make level of name detail depend on zoom level
+          let name = `${data.address.City}, ${data.address.RegionAbbr}`;
+          console.log(map.getZoom());
+          const zoom = map.getZoom();
+          if (zoom >= 15.5) {
+            name = `${data.address.ShortLabel} ` + name;
+          }
+
+          setMarkers((existingMarkers) => [
+            ...existingMarkers,
+            {
+              position: e.latlng,
+              // also .Neighborhood, PlaceName, ShortLabel
+              name,
+            },
+          ]);
+        });
 
         map.flyTo(e.latlng, map.getZoom());
       },
@@ -78,29 +138,86 @@ const WhereTo: React.FC<WhereToProps> = ({
             </IonTitle>
           </IonToolbar>
         </IonHeader>
-        <MapContainer id={"getaway-map"} center={initialPosition} zoom={11}>
+
+        <MapContainer
+          id={"getaway-map"}
+          center={initialPosition}
+          zoom={11}
+          scrollWheelZoom={false}
+          whenReady={() => {}}
+          whenCreated={(map) => {
+            map.invalidateSize();
+          }}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {markers.map((position, idx) => (
-            <Marker key={`marker-${idx}`} position={position}>
-              {/*<Tooltip></Tooltip>*/}
-              {/*    <Popup>*/}
-              {/*      <span>Popup</span>*/}
-              {/*    </Popup>*/}
+          {markers.map((destination, idx) => (
+            <Marker key={`marker-${idx}`} position={destination.position}>
+              {/*<Tooltip>{destination.name}</Tooltip>*/}
+              <Popup onOpen={() => {}}>
+                <span>{destination.name}</span>
+              </Popup>
             </Marker>
           ))}
 
           <DestinationMarker />
         </MapContainer>
 
-        <ul>
-          {markers.map((position, idx) => {
-            return <li key={`dest-${idx}`}>{position.toString()}</li>;
-          })}
-        </ul>
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Your list of places</IonCardTitle>
+            <IonCardSubtitle>
+              Next, save this getaway and go on to choose how you're getting
+              there
+            </IonCardSubtitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <ol>
+              {markers.map((destination, idx) => {
+                return (
+                  <li key={`dest-${idx}`}>
+                    {destination.name} [{destination.position.toString()}]
+                  </li>
+                );
+              })}
+            </ol>
+            <IonItem>
+              <IonLabel position="stacked">Name this Getaway</IonLabel>
+              <IonInput
+                required={true}
+                ref={getawayNameRef}
+                size={20}
+                type="text"
+              />
+            </IonItem>
+
+            <IonItem>
+              <IonTextarea className={"ion-margin"}></IonTextarea>
+              {/*<IonToolbar>*/}
+              {/*  <IonButtons slot="primary">*/}
+              {/*   */}
+              {/*  </IonButtons>*/}
+              {/*  /!*<IonTitle>Default Buttons</IonTitle>*!/*/}
+              {/*</IonToolbar>*/}
+              <IonButton
+                fill="outline"
+                size="small"
+                className={"ion-align-self-baseline"}
+              >
+                Calculate shortest movement plan
+              </IonButton>
+
+              {/*<IonLabel position={"stacked"}></IonLabel>*/}
+            </IonItem>
+
+            <IonItem>
+              <IonButton onClick={submitHandler}>Save this Getaway</IonButton>
+            </IonItem>
+          </IonCardContent>
+        </IonCard>
 
         <PastTripsList intention={intentionForTravel} />
       </IonContent>

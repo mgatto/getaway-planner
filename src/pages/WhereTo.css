@@ -1,5 +1,11 @@
-/*#getaway-map { height: 360px; }*/
+
+/*@import url("~leaflet/dist/leaflet.css");*/
 .leaflet-container {
     width: 75%;
     height: 70vh;
+}
+
+ion-textarea {
+ border-color: #403E39; border-width: thin; border-style: solid; border-radius: 3px;
+    width: 20vw !important;
 }
