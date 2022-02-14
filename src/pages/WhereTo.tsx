@@ -70,7 +70,7 @@ const WhereTo: React.FC<WhereToProps> = ({
 
   const submitHandler = () => {
     console.log(getawayNameRef.current!.value);
-    history.push("/home");
+    history.push("/how");
   };
 
   //ah, this is basically a React Component, which must be a child element of MapContainer; neat!
@@ -127,7 +127,7 @@ const WhereTo: React.FC<WhereToProps> = ({
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle />
+          <IonTitle>Getaway Planner</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

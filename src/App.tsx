@@ -27,6 +27,7 @@ import NotFound from "./pages/NotFound";
 import WhyGo from "./pages/WhyGo";
 import GetawayContextProvider from "./data/GetawayContextProvider";
 import WhereTo from "./pages/WhereTo";
+import HowTo from "./pages/HowTo";
 
 setupIonicReact();
 
@@ -41,6 +42,7 @@ const App: React.FC = () => (
           </Route>
           <Route path={"/why"} component={WhyGo} />
           <Route path={"/where"} component={WhereTo} />
+          <Route path={"/how"} component={HowTo} />
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>

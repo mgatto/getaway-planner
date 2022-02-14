@@ -42,7 +42,9 @@ const WhyGo: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar />
+        <IonToolbar>
+          <IonTitle>Getaway Planner</IonTitle>
+        </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader>
