@@ -5,6 +5,7 @@ import { GetawayTypeProps } from "../pages/WhyGo";
 const GetawayTypeTile: React.FC<GetawayTypeProps> = (props) => {
   return (
     <IonItem
+      key={props.id}
       button
       onClick={(e) => {
         e.stopPropagation();
@@ -18,4 +19,4 @@ const GetawayTypeTile: React.FC<GetawayTypeProps> = (props) => {
   );
 };
 
-export default GetawayTypeTile;
+export default React.memo(GetawayTypeTile);
