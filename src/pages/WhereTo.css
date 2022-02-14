@@ -1,0 +1,5 @@
+/*#getaway-map { height: 360px; }*/
+.leaflet-container {
+    width: 75%;
+    height: 70vh;
+}

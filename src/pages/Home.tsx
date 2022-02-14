@@ -26,7 +26,6 @@ const Home: React.FC<BrowserRouterProps> = (props) => {
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <PastTripsList />
       </IonContent>
     </IonPage>
   );

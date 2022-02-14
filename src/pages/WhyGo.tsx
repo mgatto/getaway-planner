@@ -31,6 +31,7 @@ const WhyGo: React.FC = () => {
   const getawayCtx = useContext(Getaway);
   // const currentIntention = getawayCtx.currentIntention;
 
+  //TODO should I use useCallback() here so the function is saved for reuse later?
   const getawayTypeSelectionHandler = (id: number) => {
     // console.log(id);
     getawayCtx.selectOneIntent(id);
@@ -69,8 +70,7 @@ const WhyGo: React.FC = () => {
               <IonCardTitle>{getawayCtx.currentIntention.title}</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
-              {/*TODO convert into RouterLink*/}
-              <IonButton fill="outline" slot="end">
+              <IonButton fill="outline" slot="end" routerLink={"/where"}>
                 Let's go!
               </IonButton>
             </IonCardContent>
