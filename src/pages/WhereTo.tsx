@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Getaway, Intention } from "../data/GetawayContextProvider";
 import {
+  IonBackButton,
   IonButton,
   IonButtons,
   IonCard,
@@ -127,6 +128,9 @@ const WhereTo: React.FC<WhereToProps> = ({
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton />
+          </IonButtons>
           <IonTitle>Getaway Planner</IonTitle>
         </IonToolbar>
       </IonHeader>

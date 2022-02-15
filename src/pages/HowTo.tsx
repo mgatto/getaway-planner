@@ -19,6 +19,8 @@ import {
   IonRadioGroup,
   IonListHeader,
   IonRadio,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/react";
 
 const HowTo: React.FC = () => {
@@ -34,6 +36,9 @@ const HowTo: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton />
+          </IonButtons>
           <IonTitle>Getaway Planner</IonTitle>
         </IonToolbar>
       </IonHeader>
