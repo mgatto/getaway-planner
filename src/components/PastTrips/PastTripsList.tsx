@@ -41,8 +41,7 @@ const PastTripsList: React.FC<PastTripProps> = ({ intention }): JSX.Element => {
   return (
     <IonList>
       <IonListHeader>
-        <IonTitle>Your Past Getaways</IonTitle>
-        <IonLabel>{intention.title}</IonLabel>
+        <IonTitle>Your Past Getaways for {intention.title}</IonTitle>
       </IonListHeader>
       {pastTrips.map((trip, idx) => {
         return (
