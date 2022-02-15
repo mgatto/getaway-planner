@@ -62,8 +62,10 @@ const WhereTo: React.FC<WhereToProps> = ({
   near = true,
   cluster = false,
 }): JSX.Element => {
+  const [route, setRoute] = useState<string>();
   const [markers, setMarkers] = useState<Destinations[]>([]);
   const getawayNameRef = useRef<HTMLIonInputElement>(null);
+
   const history = useHistory();
 
   const getawayCtx = useContext(Getaway);
@@ -199,7 +201,7 @@ const WhereTo: React.FC<WhereToProps> = ({
             </IonItem>
 
             <IonItem>
-              <IonTextarea className={"ion-margin"}></IonTextarea>
+              <IonTextarea value={route} className={"ion-margin"}></IonTextarea>
               {/*<IonToolbar>*/}
               {/*  <IonButtons slot="primary">*/}
               {/*   */}
@@ -210,11 +212,14 @@ const WhereTo: React.FC<WhereToProps> = ({
                 fill="outline"
                 size="small"
                 className={"ion-align-self-baseline"}
+                onClick={() =>
+                  setRoute(
+                    "Santa Fe, NM --> Espanola, NM --> Taos, NM --> Abiquiu, NM --> Santa Fe, NM"
+                  )
+                }
               >
                 Calculate shortest movement plan
               </IonButton>
-
-              {/*<IonLabel position={"stacked"}></IonLabel>*/}
             </IonItem>
 
             <IonItem>
