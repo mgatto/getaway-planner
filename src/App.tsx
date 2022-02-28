@@ -44,7 +44,7 @@ const App: React.FC = () => (
           <Route path={"/where"} component={WhereTo} />
           <Route path={"/how"} component={HowTo} />
           <Route exact path="/">
-            <Redirect to="/home" />
+            <Redirect to="/why" />
           </Route>
           <Route component={NotFound} />
         </IonRouterOutlet>
