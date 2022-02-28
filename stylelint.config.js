@@ -1,0 +1,9 @@
+"use strict";
+
+module.exports = {
+  extends: [
+    "stylelint-config-standard",
+    "stylelint-config-recommended",
+    "stylelint-config-prettier",
+  ],
+};
