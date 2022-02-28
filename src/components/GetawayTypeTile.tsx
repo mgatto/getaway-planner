@@ -1,6 +1,11 @@
-import React from "react";
+import React, { EventHandler } from "react";
 import { IonItem } from "@ionic/react";
-import { GetawayTypeProps } from "../pages/WhyGo";
+import { Intention } from "../data/GetawayContextProvider";
+
+export interface GetawayTypeProps extends Intention {
+  selectIntention: (id: number) => void;
+}
+//EventHandler<any>
 
 const GetawayTypeTile: React.FC<GetawayTypeProps> = (props) => {
   return (
@@ -9,7 +14,7 @@ const GetawayTypeTile: React.FC<GetawayTypeProps> = (props) => {
       button
       onClick={(e) => {
         e.stopPropagation();
-        props.handler(props.id);
+        props.selectIntention(props.id); //TODO why don't I need to use bind(null, props.id) here?
       }}
       color="default"
       detail={true}

@@ -21,22 +21,14 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import GetawayTypeTile from "../components/GetawayTypeTile";
-import { Intention, Getaway } from "../data/GetawayContextProvider";
-
-export interface GetawayTypeProps extends Intention {
-  handler: EventHandler<any>;
-}
+import { Getaway } from "../data/GetawayContextProvider";
 
 const WhyGo: React.FC = () => {
   const getawayCtx = useContext(Getaway);
-  // const currentIntention = getawayCtx.currentIntention;
+  const currentIntention = getawayCtx.currentIntention;
 
-  //TODO should I use useCallback() here so the function is saved for reuse later?
-  const getawayTypeSelectionHandler = (id: number) => {
-    // console.log(id);
+  const intentionSelectionHandler = (id: number) => {
     getawayCtx.selectOneIntent(id);
-
-    //TODO add a card below the options to show the current intention
   };
 
   return (
@@ -54,15 +46,23 @@ const WhyGo: React.FC = () => {
         </IonHeader>
         <IonGrid>
           <IonRow>
-            {getawayCtx.intentions.map((intention, idx) => (
-              <IonCol size="6" key={idx}>
-                <GetawayTypeTile
-                  handler={getawayTypeSelectionHandler}
-                  id={intention.id}
-                  title={intention.title}
-                />
-              </IonCol>
-            ))}
+            {getawayCtx.intentions.map((intention, idx) => {
+              // TODO highlight the currently selected intention; use currentIntention from the Context
+              let highlightClass = "";
+              if (intention.id === currentIntention.id)
+                highlightClass = "activeSelection";
+              return (
+                <IonCol size="6" key={idx}>
+                  {/*TODO proxy the className attr*/}
+                  <GetawayTypeTile
+                    // className={}
+                    selectIntention={intentionSelectionHandler}
+                    id={intention.id}
+                    title={intention.title}
+                  />
+                </IonCol>
+              );
+            })}
           </IonRow>
         </IonGrid>
         {getawayCtx.currentIntention.id > 0 && (
