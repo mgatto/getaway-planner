@@ -52,7 +52,6 @@ const HowTo: React.FC = () => {
         <IonHeader>
           <IonToolbar>
             <IonTitle size="large">How to get there?</IonTitle>
-            {/*TODO replace "there" with first item on route list*/}
           </IonToolbar>
         </IonHeader>
         <IonItem>
