@@ -7,7 +7,6 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonItem,
-  IonLabel,
   IonList,
   IonListHeader,
   IonTitle,
@@ -26,11 +25,16 @@ interface Trip {
   rating: number;
 }
 
+/* initial data */
 const pastTrips: Trip[] = [
   {
     id: 1,
     name: "Awesome bookhounding 2020",
-    places: ["Davis, CA", "West Sacramento, CA", "Napa, CA"],
+    places: [
+      "Davis, California",
+      "West Sacramento, California",
+      "Napa, California",
+    ],
     start: new Date(2020, 2, 18),
     end: new Date(2020, 2, 21),
     rating: 5,
