@@ -1,7 +1,9 @@
 import React, { EventHandler, useContext } from "react";
 
 import {
+  IonBackButton,
   IonButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -11,12 +13,8 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
-  IonImg,
-  IonLabel,
   IonPage,
   IonRow,
-  IonText,
-  IonThumbnail,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -35,6 +33,10 @@ const WhyGo: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          {" "}
+          <IonButtons slot="start">
+            <IonBackButton />
+          </IonButtons>
           <IonTitle>Getaway Planner</IonTitle>
         </IonToolbar>
       </IonHeader>

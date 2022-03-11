@@ -1,4 +1,10 @@
 import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonPage,
@@ -6,12 +12,14 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import "./Home.css";
-import React from "react";
+import React, { useContext } from "react";
 import PastTripsList from "../components/PastTrips/PastTripsList";
 import { BrowserRouterProps } from "react-router-dom";
+import { Getaway } from "../data/GetawayContextProvider";
 
 const Home: React.FC<BrowserRouterProps> = (props) => {
-  // const
+  const getawayCtx = useContext(Getaway);
+  const intentionForTravel = getawayCtx.currentIntention;
 
   return (
     <IonPage>
@@ -26,6 +34,19 @@ const Home: React.FC<BrowserRouterProps> = (props) => {
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        <PastTripsList intention={intentionForTravel} />
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>What Next?</IonCardTitle>
+            <IonCardSubtitle></IonCardSubtitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonButton fill="outline" slot="end" routerLink={"/why"}>
+              Start a new Getaway
+            </IonButton>
+          </IonCardContent>
+        </IonCard>
       </IonContent>
     </IonPage>
   );
