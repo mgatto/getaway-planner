@@ -27,7 +27,7 @@ export interface Destination {
 export interface Timespan {
   hours: number;
 }
-//Type it further so it's only 24, 36, 48, 72? This might be an actually good use case for enum?
+//TODO Type it further so it's only 24, 36, 48, 72? This might be an actually good use case for enum?
 
 interface GetawayContext {
   intentions: Intention[];
@@ -110,12 +110,18 @@ const GetawayContextProvider: React.FC = (props) => {
   };
 
   const appendDestination = (place: Destination) => {
+    place.id = destinations.length + 1;
     setDestinations((currentDestinations) => [...currentDestinations, place]);
   };
 
   const removeDestination = (placeId: number) => {
+    console.log(placeId);
+
     setDestinations((currentDestinations) =>
-      currentDestinations.filter((place) => place.id !== placeId)
+      currentDestinations.filter((place) => {
+        console.log(place);
+        return place.id !== placeId;
+      })
     );
   };
 

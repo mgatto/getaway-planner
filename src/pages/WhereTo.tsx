@@ -35,9 +35,6 @@ import axios from "axios";
 
 import { LatLng, LatLngExpression, LeafletMouseEvent } from "leaflet";
 import { useHistory } from "react-router";
-
-// import classes from "./WhereTo.module.css";
-
 import { trash } from "ionicons/icons";
 
 interface WhereToProps {
@@ -165,15 +162,15 @@ const WhereTo: React.FC<WhereToProps> = ({
               return (
                 <IonItemSliding key={`dest-${idx}`}>
                   <IonItem>
-                    <IonLabel>
-                      {destination.name}
-                      {/*[{destination.position.toString()}]*/}
-                    </IonLabel>
+                    <IonLabel>{destination.name}</IonLabel>
                   </IonItem>
                   <IonItemOptions side="end">
                     <IonItemOption
                       color="danger"
-                      onClick={() => console.log("share clicked")}
+                      onClick={(e) => {
+                        console.log(e);
+                        getawayCtx.removeDestination(destination.id);
+                      }}
                     >
                       <IonIcon slot="icon-only" icon={trash} />
                       Delete
@@ -187,11 +184,6 @@ const WhereTo: React.FC<WhereToProps> = ({
 
         {/*TODO add another card for the route optimization?*/}
         <IonItem>
-          {/*<IonToolbar>*/}
-          {/*  <IonButtons slot="primary">*/}
-          {/*  </IonButtons>*/}
-          {/*  /!*<IonTitle>Default Buttons</IonTitle>*!/*/}
-          {/*</IonToolbar>*/}
           <IonButton
             fill="outline"
             size="small"
