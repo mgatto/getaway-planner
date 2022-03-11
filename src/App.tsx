@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -36,17 +36,19 @@ const App: React.FC = () => (
     <IonReactRouter>
       <GetawayContextProvider>
         <IonRouterOutlet>
-          {/*Don't need <Switch /> within <IonRouterOutlet>*/}
-          <Route path="/home">
-            <Home />
-          </Route>
-          <Route path={"/why"} component={WhyGo} />
-          <Route path={"/where"} component={WhereTo} />
-          <Route path={"/how"} component={HowTo} />
-          <Route exact path="/">
-            <Redirect to="/why" />
-          </Route>
-          <Route component={NotFound} />
+          <Switch>
+            {/*Don't need <Switch /> within <IonRouterOutlet>*/}
+            <Route path="/home">
+              <Home />
+            </Route>
+            <Route path={"/why"} component={WhyGo} />
+            <Route path={"/where"} component={WhereTo} />
+            <Route path={"/how"} component={HowTo} />
+            <Route exact path="/">
+              <Redirect to="/why" />
+            </Route>
+            <Route path="*" component={NotFound} />
+          </Switch>
         </IonRouterOutlet>
       </GetawayContextProvider>
     </IonReactRouter>
