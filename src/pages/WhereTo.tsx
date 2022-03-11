@@ -36,7 +36,7 @@ import axios from "axios";
 import { LatLng, LatLngExpression, LeafletMouseEvent } from "leaflet";
 import { useHistory } from "react-router";
 
-import classes from "./WhereTo.module.css";
+// import classes from "./WhereTo.module.css";
 
 import { trash } from "ionicons/icons";
 
@@ -53,50 +53,39 @@ const WhereTo: React.FC<WhereToProps> = ({
   cluster = false,
 }): JSX.Element => {
   const [imgurl, setImgurl] = useState<string>("");
-  // const [route, setRoute] = useState<string>("");
-  // const [markers, setMarkers] = useState<Destinations[]>([]);
   const getawayNameRef = useRef<HTMLIonInputElement>(null);
   const history = useHistory();
   const getawayCtx = useContext(Getaway);
-
   const intentionForTravel = getawayCtx.currentIntention;
   const getawayName = getawayCtx.name;
 
-  //TODO Add name to Context API; only do onIonBlur else it'll update Context on each keystroke
   const submitHandler = () => {
-    console.log(getawayNameRef.current!.value);
-    //TODO Validate form here
+    // console.log(getawayNameRef.current!.value);
     getawayCtx.saveName(String(getawayNameRef.current!.value));
-
     history.push("/how");
   };
 
-  //ah, this is basically a React Component, which must be a child element of MapContainer; neat!
   function DestinationMarker() {
-    const [position, setPosition] = useState<LatLngExpression | null>(null);
-    // or start with the center: map.getCenter() or simply "initialPosition"
-
     const map = useMapEvents({
       click(e: LeafletMouseEvent) {
         //TODO maybe going to the user's current location is good to get their departure point?
-        setPosition(e.latlng);
+        // or start with the center: map.getCenter() or simply "initialPosition"
 
         const GEOCODE_URL =
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
         async function reverseGeoCoding(coordinates: LatLng) {
-          // const addressLabel =
-          //   data.address !== undefined ? data.address.LongLabel : "Unknown";
           return await (
             await fetch(GEOCODE_URL + `${coordinates.lng},${coordinates.lat}`)
           ).json();
         }
 
         reverseGeoCoding(e.latlng).then((data) => {
-          console.log(data);
+          // console.log(data);
+
+          let name = `${data.address.City}, ${data.address.Region}`;
 
           // make level of name detail depend on zoom level
-          let name = `${data.address.City}, ${data.address.Region}`;
-          console.log(map.getZoom());
+          // console.log(map.getZoom());
           const zoom = map.getZoom();
           if (zoom >= 15.5) {
             name = `${data.address.ShortLabel} ` + name;
@@ -104,7 +93,7 @@ const WhereTo: React.FC<WhereToProps> = ({
 
           getawayCtx.appendDestination({
             id: 0,
-            position: e.latlng, // also .Neighborhood, PlaceName, ShortLabel
+            position: e.latlng, // also .Neighborhood, .PlaceName, .ShortLabel
             name,
           });
         });
@@ -154,7 +143,6 @@ const WhereTo: React.FC<WhereToProps> = ({
 
           {getawayCtx.destinations.map((destination, idx) => (
             <Marker key={`marker-${idx}`} position={destination.position}>
-              {/*<Tooltip>{destination.name}</Tooltip>*/}
               <Popup onOpen={() => {}}>
                 <span>{destination.name}</span>
               </Popup>
@@ -178,7 +166,8 @@ const WhereTo: React.FC<WhereToProps> = ({
                 <IonItemSliding key={`dest-${idx}`}>
                   <IonItem>
                     <IonLabel>
-                      {destination.name} [{destination.position.toString()}]
+                      {destination.name}
+                      {/*[{destination.position.toString()}]*/}
                     </IonLabel>
                   </IonItem>
                   <IonItemOptions side="end">
@@ -238,7 +227,6 @@ const WhereTo: React.FC<WhereToProps> = ({
             ref={getawayNameRef}
             size={20}
             type="text"
-            // onIonBlur={}
           />
         </IonItem>
 

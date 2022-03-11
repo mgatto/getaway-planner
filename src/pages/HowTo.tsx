@@ -1,25 +1,12 @@
-import React, {
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext } from "react";
 import {
   IonContent,
   IonItem,
   IonHeader,
-  IonList,
   IonPage,
   IonTitle,
   IonToolbar,
-  IonCard,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCardContent,
   IonLabel,
-  IonInput,
   IonSelect,
   IonSelectOption,
   IonRadioGroup,
