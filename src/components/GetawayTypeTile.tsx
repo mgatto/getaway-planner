@@ -1,13 +1,19 @@
-import React, { EventHandler } from "react";
-import { IonItem } from "@ionic/react";
-import { Intention } from "../data/GetawayContextProvider";
+import React, { useContext } from "react";
+import { IonItem, IonText } from "@ionic/react";
+import { Getaway, Intention } from "../data/GetawayContextProvider";
 
 export interface GetawayTypeProps extends Intention {
   selectIntention: (id: number) => void;
 }
-//EventHandler<any>
 
 const GetawayTypeTile: React.FC<GetawayTypeProps> = (props) => {
+  const getawayCtx = useContext(Getaway);
+  const currentIntention = getawayCtx.currentIntention;
+
+  /* highlight the currently selected intention */
+  let highlightClass = "";
+  if (props.id === currentIntention.id) highlightClass = "secondary";
+
   return (
     <IonItem
       key={props.id}
@@ -19,7 +25,7 @@ const GetawayTypeTile: React.FC<GetawayTypeProps> = (props) => {
       color="default"
       detail={true}
     >
-      {props.title}
+      <IonText className={highlightClass}>{props.title}</IonText>
     </IonItem>
   );
 };

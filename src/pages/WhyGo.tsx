@@ -1,4 +1,4 @@
-import React, { EventHandler, useContext } from "react";
+import React, { useContext } from "react";
 
 import {
   IonBackButton,
@@ -23,7 +23,6 @@ import { Getaway } from "../data/GetawayContextProvider";
 
 const WhyGo: React.FC = () => {
   const getawayCtx = useContext(Getaway);
-  const currentIntention = getawayCtx.currentIntention;
 
   const intentionSelectionHandler = (id: number) => {
     getawayCtx.selectOneIntent(id);
@@ -49,15 +48,10 @@ const WhyGo: React.FC = () => {
         <IonGrid>
           <IonRow>
             {getawayCtx.intentions.map((intention, idx) => {
-              // TODO highlight the currently selected intention; use currentIntention from the Context
-              let highlightClass = "";
-              if (intention.id === currentIntention.id)
-                highlightClass = "activeSelection";
               return (
                 <IonCol size="6" key={idx}>
                   {/*TODO proxy the className attr*/}
                   <GetawayTypeTile
-                    // className={}
                     selectIntention={intentionSelectionHandler}
                     id={intention.id}
                     title={intention.title}
