@@ -95,7 +95,7 @@ const WhereTo: React.FC<WhereToProps> = ({
           console.log(data);
 
           // make level of name detail depend on zoom level
-          let name = `${data.address.City}, ${data.address.RegionAbbr}`;
+          let name = `${data.address.City}, ${data.address.Region}`;
           console.log(map.getZoom());
           const zoom = map.getZoom();
           if (zoom >= 15.5) {
@@ -107,14 +107,6 @@ const WhereTo: React.FC<WhereToProps> = ({
             position: e.latlng, // also .Neighborhood, PlaceName, ShortLabel
             name,
           });
-          // setMarkers((existingMarkers) => [
-          //   ...existingMarkers,
-          //   {
-          //     position: e.latlng,
-          //     // also .Neighborhood, PlaceName, ShortLabel
-          //     name,
-          //   },
-          // ]);
         });
 
         map.flyTo(e.latlng, map.getZoom());
@@ -216,10 +208,14 @@ const WhereTo: React.FC<WhereToProps> = ({
             size="small"
             className={"ion-align-self-baseline"}
             onClick={() => {
-              //TODO make API call to Python app
-              //127.0.0.1:5000/img/Santa_Fe,_New_Mexico
+              //must look like this: 127.0.0.1:5000/img/Santa_Fe,_New_Mexico
               axios
-                .get("http://127.0.0.1:5000/img/Santa_Fe,_New_Mexico")
+                .get(
+                  `http://127.0.0.1:5000/img/${getawayCtx.destinations[0].name.replace(
+                    /\s+/g,
+                    "_"
+                  )}`
+                )
                 .then((resp) => {
                   console.log(resp.data.imgurl);
                   setImgurl(resp.data.imgurl);
