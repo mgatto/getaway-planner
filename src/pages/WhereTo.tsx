@@ -63,12 +63,10 @@ const WhereTo: React.FC<WhereToProps> = ({
     history.push("/how");
   };
 
+  /* define a sub-component for a marker on the map */
   function DestinationMarker() {
     const map = useMapEvents({
       click(e: LeafletMouseEvent) {
-        //TODO maybe going to the user's current location is better to get their departure point?
-        // or start with the center: map.getCenter() or simply "initialPosition"
-
         /**
          * Get the accepted name for the lat/long pair
          */
@@ -117,13 +115,18 @@ const WhereTo: React.FC<WhereToProps> = ({
           </IonToolbar>
         </IonHeader>
 
+        {/*TODO "center=..." maybe going to the user's current location is better to get their departure point?*/}
+        {/*Or start with the center: map.getCenter()*/}
         <MapContainer
           id={"getaway-map"}
           center={initialPosition}
+          // default initial zoom
+          //TODO store current zoom in state for better UX when moving between pages
           zoom={11}
           scrollWheelZoom={false}
           whenReady={() => {}}
           whenCreated={(map) => {
+            // needed to workaround a bug in the library where tiles appear sparingly
             map.invalidateSize();
           }}
           style={{ height: "75vh", width: "100%" }}
@@ -148,8 +151,7 @@ const WhereTo: React.FC<WhereToProps> = ({
           <IonCardHeader>
             <IonCardTitle>Your list of places</IonCardTitle>
             <IonCardSubtitle>
-              Next, save this getaway and go on to choose how you're getting
-              there
+              Next, save this getaway then go to how you're getting there.
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>
@@ -184,7 +186,7 @@ const WhereTo: React.FC<WhereToProps> = ({
             size="small"
             className={"ion-align-self-baseline"}
             onClick={() => {
-              /* reformat because API's source data expects it as so: 127.0.0.1:5000/img/Santa_Fe,_New_Mexico */
+              /* reformat because API's source data expects it as so with underscores: Santa_Fe,_New_Mexico */
               axios
                 .get(
                   `http://127.0.0.1:5000/img/${getawayCtx.destinations[0].name.replace(
@@ -193,10 +195,10 @@ const WhereTo: React.FC<WhereToProps> = ({
                   )}`
                 )
                 .then((resp) => {
-                  console.log(resp.data.imgurl);
                   setImgurl(resp.data.imgurl);
                 })
                 .catch((err) => {
+                  //TODO should display img error to screen...
                   console.log(err);
                 });
             }}
