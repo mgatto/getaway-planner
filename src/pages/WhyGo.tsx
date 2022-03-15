@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
 
 import {
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -20,6 +18,7 @@ import {
 } from "@ionic/react";
 import GetawayTypeTile from "../components/GetawayTypeTile";
 import { Getaway } from "../data/GetawayContextProvider";
+import { Header } from "../components/Header";
 
 const WhyGo: React.FC = () => {
   const getawayCtx = useContext(Getaway);
@@ -30,15 +29,7 @@ const WhyGo: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          {" "}
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>Getaway Planner</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={"Getaway Planner"} />
       <IonContent fullscreen>
         <IonHeader>
           <IonToolbar color="primary">
@@ -50,7 +41,6 @@ const WhyGo: React.FC = () => {
             {getawayCtx.intentions.map((intention, idx) => {
               return (
                 <IonCol size="6" key={idx}>
-                  {/*TODO proxy the className attr*/}
                   <GetawayTypeTile
                     selectIntention={intentionSelectionHandler}
                     id={intention.id}

@@ -12,11 +12,10 @@ import {
   IonRadioGroup,
   IonListHeader,
   IonRadio,
-  IonButtons,
-  IonBackButton,
   IonDatetime,
 } from "@ionic/react";
 import { Getaway, Timespan } from "../data/GetawayContextProvider";
+import { Header } from "../components/Header";
 
 const HowTo: React.FC = () => {
   const getawayCtx = useContext(Getaway);
@@ -37,17 +36,9 @@ const HowTo: React.FC = () => {
     console.log("hours = " + hours);
     getawayCtx.saveLengthOfStay({ hours: +hours });
   };
-  //TODO add grid or some form of responsive layout for this form
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>Getaway Planner</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={"Getaway Planner"} />
       <IonContent>
         <IonHeader>
           <IonToolbar>

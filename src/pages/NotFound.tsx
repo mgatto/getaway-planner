@@ -1,20 +1,11 @@
 import React from "react";
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonContent, IonPage } from "@ionic/react";
+import { Header } from "../components/Header";
 
 const NotFound: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>404: Not Found</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={"404: Not Found"} />
       <IonContent fullscreen>
         <p>Try something else.</p>
       </IonContent>

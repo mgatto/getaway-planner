@@ -1,9 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { Getaway } from "../data/GetawayContextProvider";
 import {
-  IonBackButton,
   IonButton,
-  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -36,6 +34,7 @@ import axios from "axios";
 import { LatLng, LatLngExpression, LeafletMouseEvent } from "leaflet";
 import { useHistory } from "react-router";
 import { trash } from "ionicons/icons";
+import { Header } from "../components/Header";
 
 interface WhereToProps {
   near?: boolean;
@@ -105,14 +104,7 @@ const WhereTo: React.FC<WhereToProps> = ({
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton />
-          </IonButtons>
-          <IonTitle>Getaway Planner</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header title={"Getaway Planner"} />
       <IonContent className="ion-padding">
         <IonHeader>
           <IonToolbar>
