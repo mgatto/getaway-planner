@@ -31,6 +31,7 @@ const Home: React.FC<BrowserRouterProps> = (props) => {
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
+        {/*Show past trips for the current intention, if any, if use backtracked to Home */}
         <PastTripsList intention={intentionForTravel} />
         <IonCard>
           <IonCardHeader>

@@ -16,6 +16,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+
 import GetawayTypeTile from "../components/GetawayTypeTile";
 import { Getaway } from "../data/GetawayContextProvider";
 import { Header } from "../components/Header";
@@ -51,6 +52,7 @@ const WhyGo: React.FC = () => {
             })}
           </IonRow>
         </IonGrid>
+
         {getawayCtx.currentIntention.id > 0 && (
           <IonCard>
             <IonCardHeader>

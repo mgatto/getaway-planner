@@ -28,14 +28,17 @@ const HowTo: React.FC = () => {
     console.log("method = " + method);
     getawayCtx.saveMethodOfTransport(method);
   };
+
   const startDateHandler = (start: string | null | undefined) => {
     console.log("start=" + start);
     getawayCtx.fixStartDate(start || "");
   };
+
   const lengthHandler = (hours: string) => {
     console.log("hours = " + hours);
     getawayCtx.saveLengthOfStay({ hours: +hours });
   };
+
   return (
     <IonPage>
       <Header title={"Getaway Planner"} />
@@ -45,6 +48,7 @@ const HowTo: React.FC = () => {
             <IonTitle size="large">How to get there?</IonTitle>
           </IonToolbar>
         </IonHeader>
+
         <IonItem>
           <IonLabel position="stacked">Length of Getaway: </IonLabel>
           <IonSelect
@@ -58,16 +62,16 @@ const HowTo: React.FC = () => {
             <IonSelectOption value="72">72 hours</IonSelectOption>
           </IonSelect>
         </IonItem>
+
         <IonItem>
           <IonLabel position="stacked">Starting on</IonLabel>
-
           <IonDatetime
             value={start}
-            // name="start"
             presentation="date"
             onIonChange={(e) => startDateHandler(e.detail.value)}
           />
         </IonItem>
+
         <IonItem>
           <IonRadioGroup
             value={method}

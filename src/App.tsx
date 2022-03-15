@@ -34,19 +34,24 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
+      {/*need to wrap the router with the data store access component*/}
       <GetawayContextProvider>
         <IonRouterOutlet>
           <Switch>
-            {/*Don't need <Switch /> within <IonRouterOutlet>*/}
+            {/*App starting point and default; different style of routing to a component is intentional*/}
             <Route path="/home">
               <Home />
             </Route>
-            <Route path={"/why"} component={WhyGo} />
-            <Route path={"/where"} component={WhereTo} />
-            <Route path={"/how"} component={HowTo} />
             <Route exact path="/">
-              <Redirect to="/why" />
+              <Redirect to="/home" />
             </Route>
+            {/*Get the user's intention for travel to match places */}
+            <Route path={"/why"} component={WhyGo} />
+            {/*Get the user's desired destination(s)*/}
+            <Route path={"/where"} component={WhereTo} />
+            {/*Help user plan transit to destination(s)*/}
+            <Route path={"/how"} component={HowTo} />
+            {/*Basically, a 404*/}
             <Route path="*" component={NotFound} />
           </Switch>
         </IonRouterOutlet>

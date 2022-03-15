@@ -21,6 +21,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+
 import {
   MapContainer,
   Marker,
@@ -28,6 +29,7 @@ import {
   TileLayer,
   useMapEvents,
 } from "react-leaflet";
+
 import PastTripsList from "../components/PastTrips/PastTripsList";
 import axios from "axios";
 
@@ -41,7 +43,7 @@ interface WhereToProps {
   cluster?: boolean;
 }
 
-//start us off in Santa Fe!
+//start us off in Santa Fe, New Mexico!
 const initialPosition: LatLngExpression = [35.68, -105.94];
 
 const WhereTo: React.FC<WhereToProps> = ({
@@ -64,11 +66,15 @@ const WhereTo: React.FC<WhereToProps> = ({
   function DestinationMarker() {
     const map = useMapEvents({
       click(e: LeafletMouseEvent) {
-        //TODO maybe going to the user's current location is good to get their departure point?
+        //TODO maybe going to the user's current location is better to get their departure point?
         // or start with the center: map.getCenter() or simply "initialPosition"
 
+        /**
+         * Get the accepted name for the lat/long pair
+         */
         const GEOCODE_URL =
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=";
+
         async function reverseGeoCoding(coordinates: LatLng) {
           return await (
             await fetch(GEOCODE_URL + `${coordinates.lng},${coordinates.lat}`)
@@ -76,12 +82,9 @@ const WhereTo: React.FC<WhereToProps> = ({
         }
 
         reverseGeoCoding(e.latlng).then((data) => {
-          // console.log(data);
-
           let name = `${data.address.City}, ${data.address.Region}`;
 
-          // make level of name detail depend on zoom level
-          // console.log(map.getZoom());
+          /* make level of name detail depend on zoom level */
           const zoom = map.getZoom();
           if (zoom >= 15.5) {
             name = `${data.address.ShortLabel} ` + name;
@@ -89,7 +92,7 @@ const WhereTo: React.FC<WhereToProps> = ({
 
           getawayCtx.appendDestination({
             id: 0,
-            position: e.latlng, // also .Neighborhood, .PlaceName, .ShortLabel
+            position: e.latlng, //e also has: .Neighborhood, .PlaceName, .ShortLabel
             name,
           });
         });
@@ -98,7 +101,7 @@ const WhereTo: React.FC<WhereToProps> = ({
       },
     });
 
-    //we don't need to return Marker JSX since we save the marker to the state, and render below.
+    //we don't need to return Marker JSX since we save the marker in the state, and render below.
     return null;
   }
 
@@ -174,14 +177,14 @@ const WhereTo: React.FC<WhereToProps> = ({
           </IonCardContent>
         </IonCard>
 
-        {/*TODO add another card for the route optimization?*/}
+        {/*Get a representative image for the destination*/}
         <IonItem>
           <IonButton
             fill="outline"
             size="small"
             className={"ion-align-self-baseline"}
             onClick={() => {
-              //must look like this: 127.0.0.1:5000/img/Santa_Fe,_New_Mexico
+              /* reformat because API's source data expects it as so: 127.0.0.1:5000/img/Santa_Fe,_New_Mexico */
               axios
                 .get(
                   `http://127.0.0.1:5000/img/${getawayCtx.destinations[0].name.replace(

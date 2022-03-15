@@ -25,7 +25,7 @@ interface Trip {
   rating: number;
 }
 
-/* initial data */
+/* dummy initial data */
 const pastTrips: Trip[] = [
   {
     id: 1,
@@ -47,8 +47,11 @@ const PastTripsList: React.FC<PastTripProps> = ({ intention }): JSX.Element => {
       <IonListHeader>
         <IonTitle>Your Past Getaways for {intention.title}</IonTitle>
       </IonListHeader>
+
       {pastTrips.map((trip, idx) => {
+        // "return" because we're in a lambda
         return (
+          // must have a unique key since it's in a list
           <IonItem key={idx}>
             <IonCard>
               <IonCardHeader>
